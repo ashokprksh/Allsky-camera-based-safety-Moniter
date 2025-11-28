@@ -66,6 +66,9 @@ Save & Restart: Click Save & Restart. The application will now start the monitor
 
 🔗 Phase 3: ASCOM Integration
 
+<img width="715" height="453" alt="image" src="https://github.com/user-attachments/assets/89e2681e-b99c-4748-843a-a10cf0904e4a" />
+
+
 This is the final step to link the AI output to your dome controller.
 
 Select Driver: In your primary automation software (e.g., N.I.N.A.), select the Generic File Safety Monitor as your Safety Monitor device.
