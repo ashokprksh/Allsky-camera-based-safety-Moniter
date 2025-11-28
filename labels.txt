@@ -1,0 +1,6 @@
+0 Clear
+1 Clear with Moon
+2 Cloudy
+3 Overcast
+4 Partially Clear
+5 Rainy

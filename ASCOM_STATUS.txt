@@ -1,0 +1,3 @@
+IsSafe=False
+Condition=Rainy
+Confidence=0.62

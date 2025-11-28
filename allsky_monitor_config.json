@@ -1,0 +1,18 @@
+{
+    "ASCOM_MONITOR_DELAY": 45,
+    "MODEL_PATH": "C:/Allsky_safety_moniter/allsky_cloud_detector_final.tflite",
+    "LABELS_PATH": "C:/Allsky_safety_moniter/labels.txt",
+    "LATEST_IMAGE_PATH": "C:/Allsky_safety_moniter/latest.jpg",
+    "ALLSKY_HOST": "192.168.1.1",
+    "ALLSKY_USER": "username",
+    "ALLSKY_PASS": "password",
+    "REMOTE_IMAGE_PATH": "/var/www/html/allsky/images/latest.jpg",
+    "INITIAL_CROP_SIZE": [
+        1300,
+        1300
+    ],
+    "SAFE_CONDITIONS": "Clear,Partially Clear,Clear with Moon",
+    "SFTP_MAX_RETRIES": 3,
+    "SFTP_RETRY_DELAY": 5,
+    "ASCOM_FILE_PATH": "C:/Allsky_safety_moniter/ASCOM_STATUS.txt"
+}
