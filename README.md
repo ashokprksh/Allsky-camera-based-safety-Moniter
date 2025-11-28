@@ -3,6 +3,9 @@ A robust, custom-trained, AI-powered observatory safety monitor designed to anal
 
 This system addresses common observatory challenges by using a highly compatible TensorFlow Lite (TFLite) model and an SFTP transfer method within a simple, multi-threaded Windows application.
 
+
+![clear](https://github.com/user-attachments/assets/13ccb126-9997-4e8d-89c5-9868913d591c)
+
 ✨ Features
 
 Custom AI Classification: Uses a custom-trained TFLite model (MobileNetV2 architecture) for superior cloud/sky condition detection compared to generic sensors.
@@ -42,6 +45,8 @@ allsky_monitor_config.json (The Configuration file)
 Run Application: Double-click AllSkyMonitor.exe.
 
 ⚙️ Phase 2: Configuration and Setup
+
+![specs](https://github.com/user-attachments/assets/417eebc6-7f50-47de-81ac-e59cec102dcc)
 
 The application will launch, but you must configure the paths and SFTP credentials via the Settings panel before the AI model can run.
 
