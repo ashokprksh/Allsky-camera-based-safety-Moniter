@@ -42,7 +42,7 @@ labels.txt (Your list of classes)
 
 allsky_monitor_config.json (The Configuration file)
 
-Run Application: Double-click AllSkyMonitor.exe.
+Run Application: Double-click AllSkyMonitor.exe. (https://drive.google.com/file/d/1WtXlokWeKHyJTJKy80lLpFs5Q6R-QhhN/view?usp=sharing)
 
 ⚙️ Phase 2: Configuration and Setup
 
