@@ -1,95 +1,160 @@
-# Allsky-camera-based-safety-Moniter
-A robust, custom-trained, AI-powered observatory safety monitor designed to analyze real-time images from an All-Sky Camera (e.g., INDI/Raspberry Pi) and provide an immediate, reliable status to ASCOM automation software (like N.I.N.A., SGP, Voyager).
+Observatory Guardian AI - Hybrid Allsky Safety Monitor
 
-This system addresses common observatory challenges by using a highly compatible TensorFlow Lite (TFLite) model and an SFTP transfer method within a simple, multi-threaded Windows application.
+Observatory Guardian AI is a sophisticated, hybrid safety monitoring system designed for astronomical observatories. It combines Local AI image classification (TensorFlow Lite) with real-time weather station telemetry (Ecowitt) to provide a high-reliability "Safe/Unsafe" signal for ASCOM and Alpaca-compatible imaging software.
 
+🌟 Key Features
 
-![clear](https://github.com/user-attachments/assets/13ccb126-9997-4e8d-89c5-9868913d591c)
+AI Sky Classification: Uses a .tflite model to analyze Allsky images in real-time, detecting conditions like Clear, Cloudy, or Rain.
 
-✨ Features
+Modular Operation: Works as a standalone AI monitor using only your Allsky camera image, or as a hybrid system when paired with a weather station.
 
-Custom AI Classification: Uses a custom-trained TFLite model (MobileNetV2 architecture) for superior cloud/sky condition detection compared to generic sensors.
+Weather Station Integration: Optional native HTTP listener for Ecowitt weather stations to monitor wind speed, rain rate, humidity, and solar radiation.
 
-Live Image Fetch: Securely pulls the latest image from the remote All-Sky Camera (Raspberry Pi) via SFTP with built-in retry logic.
+ASCOM Alpaca Ready: Implements a full Alpaca SafetyMonitor API, allowing software like N.I.N.A., SGP, or Voyager to connect over the network.
 
-Persistent GUI Application: A standalone Windows executable (.exe) with a user interface, running the monitoring loop in a background thread for non-blocking operation.
+Hybrid Safety Logic: * Immediate Trigger: Hard-wired "Unsafe" flip for rain or high wind.
 
-Configurable Safety: Safety status (IsSafe=True/False) is written to a dedicated text file, read by the ASCOM Generic File Safety Monitor.
+Cloud Grace Period: User-definable countdown timer for transient clouds to prevent unnecessary observatory shutdowns.
 
-Zero Dependencies: The final application is bundled with all necessary libraries (TensorFlow, OpenCV, Paramiko) using PyInstaller.
+Web Dashboard: A built-in responsive web server providing live charts (Chart.js), compass directions, and AI confidence metrics.
 
-🚀 Phase 1: Deployment & Installation
+Data Proxying: Acts as a bridge to forward Ecowitt telemetry to Home Assistant or other third-party services.
 
-The final application is compiled into a single executable file.
+Flexible Image Ingestion: Supports MQTT (fastest), SFTP (Allsky Map compatible), or IP Camera (RTSP/MJPEG) streams.
 
-Prerequisites (Run on Observatory PC)
+🏗️ System Architecture
 
-Your observatory PC needs only one non-Python prerequisite:
+Image Source: Allsky camera uploads images via MQTT or SFTP.
 
-Microsoft Visual C++ Redistributable (x64): Required for TensorFlow's core components to run. If you encounter an msvcp140_1.dll error, download and install the latest x64 version from the Microsoft website.
+AI Engine: The Python script crops the image and runs it through a TensorFlow Lite classifier.
 
-Installation
+Weather Listener (Optional): Ecowitt station sends "Custom Server" packets to the script on a dedicated port.
 
-Create Folder: Create a dedicated, non-protected folder on your PC (e.g., C:\AllskyMonitor).
+Decision Logic: The system evaluates available inputs. If the weather station is disabled, safety is determined solely by AI image analysis.
 
-Copy Files: Copy the following four files into that folder:
+Output: * Updates a local ASCOM_STATUS.txt file.
 
-AllSkyMonitor.exe (The compiled application)
+Serves the Alpaca /api/v1/safetymonitor/ endpoint.
 
-allsky_cloud_detector_final.tflite (Your AI Model)
+Forwards weather data to Home Assistant (if configured).
 
-labels.txt (Your list of classes)
+🚀 Installation
 
-allsky_monitor_config.json (The Configuration file)
+Prerequisites
 
-Run Application: Double-click AllSkyMonitor.exe. (https://drive.google.com/file/d/1WtXlokWeKHyJTJKy80lLpFs5Q6R-QhhN/view?usp=sharing)
+Python 3.8 or higher.
 
-⚙️ Phase 2: Configuration and Setup
+A trained TensorFlow Lite model (.tflite) and corresponding labels.txt.
 
-![specs](https://github.com/user-attachments/assets/417eebc6-7f50-47de-81ac-e59cec102dcc)
+Dependencies
 
-The application will launch, but you must configure the paths and SFTP credentials via the Settings panel before the AI model can run.
-
-Open Settings: Click the ⚙️ Settings button in the main application window.
-
-Configure Paths & Credentials: Fill in all fields in the Settings window:
-
-ASCOM Status File Path: Crucial! Use the Browse button to select a file path in a non-protected folder (e.g., C:\Users\YourUser\Documents\ASCOM_STATUS.txt). This is the file your ASCOM driver will read.
-
-AI Model Paths: Point these to the .tflite and .txt files in your installation directory.
-
-SFTP Connection: Enter the IP address, username, password, and the full remote path to your latest.jpg file on the Allsky Camera (e.g., /home/pi/allsky/images/latest.jpg).
-
-Safe Conditions: Enter a comma-separated list of every class name that you consider safe for observing (e.g., Clear, Partially Clear, Clear with Moon).
-
-Save & Restart: Click Save & Restart. The application will now start the monitoring thread, pull the image, and begin updating the ASCOM file.
-
-🔗 Phase 3: ASCOM Integration
-
-<img width="715" height="453" alt="image" src="https://github.com/user-attachments/assets/89e2681e-b99c-4748-843a-a10cf0904e4a" />
+pip install opencv-python numpy tensorflow paramiko paho-mqtt Pillow requests
 
 
-This is the final step to link the AI output to your dome controller.
+Running the Monitor
 
-Select Driver: In your primary automation software (e.g., N.I.N.A.), select the Generic File Safety Monitor as your Safety Monitor device.
+Clone this repository.
 
-Open Properties: Click the Properties button to open the configuration window.
+Run the script:
 
-Set File Path: Set the File to monitor field to the exact path you chose in the application settings (e.g., C:\Users\YourUser\Documents\ASCOM_STATUS.txt).
+python "Allsky safety Moniter-AI.py"
 
-Configure Unsafe Trigger (CRITICAL):
 
-Event type: Safe
+Use the ⚙ Configure Settings button in the GUI to set your paths and IP addresses.
 
-Trigger: IsSafe=False
+⚙️ Configuration Guide
 
-Unsafe Delay: Set a delay (e.g., 1-5 minutes) to prevent the dome from closing due to very fast, temporary cloud patches.
+1. AI-Only vs. Hybrid Mode
 
-Click Add.
+The system is designed to be flexible:
 
-When the application detects clouds, it writes IsSafe=False. The ASCOM driver detects this string, reports an UNSAFE status, and your automation software executes the shutdown routine.
+AI Only: Disable "Use Weather Station" in settings. Safety will be based on the AI's classification of the sky image.
 
-🧠 Phase 4: Training Your AI Model (Replication Guide)
+Hybrid: Enable "Use Weather Station". The system will mark the state as UNSAFE if either the AI detects rain/clouds or the weather station reports high winds/rain.
+
+2. AI Logic
+
+Model Path: Select your .tflite file.
+
+Safe AI Labels: A comma-separated list of labels that represent "Safe" conditions (e.g., Clear, Partially Clear).
+
+Cloud Grace: Number of minutes the AI will wait while "Cloudy" before marking the session as Unsafe.
+
+3. Weather Station (Ecowitt)
+
+In your Ecowitt App/WS View, set the Custom Server to:
+
+Protocol: HTTP / POST
+
+Server IP: IP of the computer running this script.
+
+Port: Default is 8080.
+
+Interval: 16-60 seconds.
+
+4. Home Assistant Integration (Proxy)
+
+Enable Forwarding in the Weather tab.
+
+Input your Home Assistant Ecowitt Webhook URL.
+
+📊 Safety Trigger Matrix
+
+Source
+
+Trigger
+
+State
+
+Immediate?
+
+Ecowitt (Optional)
+
+Rain Rate > 0
+
+UNSAFE
+
+✅ YES
+
+Ecowitt (Optional)
+
+Wind > Limit
+
+UNSAFE
+
+✅ YES
+
+AI Engine
+
+"Rain" Label
+
+UNSAFE
+
+✅ YES
+
+AI Engine
+
+"Cloudy" Label
+
+UNSAFE
+
+⏳ After Grace Period
+
+System
+
+Stale Image
+
+UNSAFE
+
+✅ YES
+
+⚖️ License & Disclaimer
+
+This software is provided "as is". Building an automated observatory involves risks to expensive equipment. Always ensure you have physical fail-safes (like a local rain sensor) in addition to this software.
+
+Developed for the Amateur Astronomy Community.
+
+🧠 Phase 3: Training Your AI Model (Replication Guide)
 
 If you need to retrain the model with more data (e.g., adding a Fog class) or adapt it to a new camera, follow these steps:
 
