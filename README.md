@@ -2,6 +2,10 @@ Observatory Guardian AI - Hybrid Allsky Safety Monitor
 
 Observatory Guardian AI is a sophisticated, hybrid safety monitoring system designed for astronomical observatories. It combines Local AI image classification (TensorFlow Lite) with real-time weather station telemetry (Ecowitt) to provide a high-reliability "Safe/Unsafe" signal for ASCOM and Alpaca-compatible imaging software.
 
+<img width="1588" height="1012" alt="image" src="https://github.com/user-attachments/assets/a67c67ac-fdc8-48cf-8fd4-d55ff2b62680" />
+
+<img width="1666" height="1155" alt="image" src="https://github.com/user-attachments/assets/d2ecda82-7147-43e0-ab5a-34974462cbfd" />
+
 🌟 Key Features
 
 AI Sky Classification: Uses a .tflite model to analyze Allsky images in real-time, detecting conditions like Clear, Cloudy, or Rain.
@@ -100,61 +104,14 @@ Input your Home Assistant Ecowitt Webhook URL.
 
 📊 Safety Trigger Matrix
 
-Source
-
-Trigger
-
-State
-
-Immediate?
-
-Ecowitt (Optional)
-
-Rain Rate > 0
-
-UNSAFE
-
-✅ YES
-
-Ecowitt (Optional)
-
-Wind > Limit
-
-UNSAFE
-
-✅ YES
-
-AI Engine
-
-"Rain" Label
-
-UNSAFE
-
-✅ YES
-
-AI Engine
-
-"Cloudy" Label
-
-UNSAFE
-
-⏳ After Grace Period
-
-System
-
-Stale Image
-
-UNSAFE
-
-✅ YES
+<img width="1042" height="322" alt="image" src="https://github.com/user-attachments/assets/a5d0f268-f7f3-40a4-8f95-2f5b6e7dc89d" />
 
 ⚖️ License & Disclaimer
 
 This software is provided "as is". Building an automated observatory involves risks to expensive equipment. Always ensure you have physical fail-safes (like a local rain sensor) in addition to this software.
 
-Developed for the Amateur Astronomy Community.
 
-🧠 Phase 3: Training Your AI Model (Replication Guide)
+🧠 Training Your AI Model (Replication Guide)
 
 If you need to retrain the model with more data (e.g., adding a Fog class) or adapt it to a new camera, follow these steps:
 
