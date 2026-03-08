@@ -104,7 +104,49 @@ Input your Home Assistant Ecowitt Webhook URL.
 
 📊 Safety Trigger Matrix
 
-<img width="1042" height="322" alt="image" src="https://github.com/user-attachments/assets/a5d0f268-f7f3-40a4-8f95-2f5b6e7dc89d" />
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Trigger</th>
+<th>State</th>
+<th>Immediate?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Ecowitt</b></td>
+<td>Rain Rate > 0</td>
+<td><span style="color:red"><b>UNSAFE</b></span></td>
+<td>✅ YES</td>
+</tr>
+<tr>
+<td><b>Ecowitt</b></td>
+<td>Wind > Limit</td>
+<td><span style="color:red"><b>UNSAFE</b></span></td>
+<td>✅ YES</td>
+</tr>
+<tr>
+<td><b>AI Engine</b></td>
+<td>"Rain" Label</td>
+<td><span style="color:red"><b>UNSAFE</b></span></td>
+<td>✅ YES</td>
+</tr>
+<tr>
+<td><b>AI Engine</b></td>
+<td>"Cloudy" Label</td>
+<td><span style="color:red"><b>UNSAFE</b></span></td>
+<td>⏳ After Grace</td>
+</tr>
+<tr>
+<td><b>System</b></td>
+<td>Stale Image</td>
+<td><span style="color:red"><b>UNSAFE</b></span></td>
+<td>✅ YES</td>
+</tr>
+</tbody>
+</table>
+
 
 ⚖️ License & Disclaimer
 
